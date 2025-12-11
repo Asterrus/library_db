@@ -9,7 +9,8 @@ from litestar.pagination import OffsetPagination
 from litestar.plugins.sqlalchemy import filters
 from pydantic import TypeAdapter
 from repositories import BookRepository
-from schemas import Book, BookCreate
+from schemas import Book, BookCreate, BookWithAuthor
+from sqlalchemy.orm import selectinload
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +36,17 @@ class BookController(Controller):
             limit=limit_offset.limit,
             offset=limit_offset.offset,
         )
+
+    @get(path="/books/{book_id:uuid}")
+    async def get_book(
+        self,
+        books_repo: BookRepository,
+        book_id: UUID,
+    ) -> BookWithAuthor:
+        logger.debug("get_book called - book_id=%s", book_id)
+        result = await books_repo.get(book_id, load=[selectinload(BookModel.author)])
+        type_adapter = TypeAdapter(BookWithAuthor)
+        return type_adapter.validate_python(result)
 
     @post(path="/books")
     async def create_book(

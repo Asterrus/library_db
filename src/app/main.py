@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+
 from controllers.author import AuthorController
 from controllers.book import BookController
 from controllers.order import OrderController
@@ -14,11 +16,15 @@ from litestar.plugins.sqlalchemy import (
 )
 from pagination import provide_limit_offset_pagination
 
+logging.basicConfig()
+logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
+
 session_config = AsyncSessionConfig(expire_on_commit=False)
 
 
 sqlalchemy_config = SQLAlchemyAsyncConfig(
-    connection_string=get_database_url(), session_config=session_config
+    connection_string=get_database_url(),
+    session_config=session_config,
 )
 sqlalchemy_plugin = SQLAlchemyInitPlugin(config=sqlalchemy_config)
 

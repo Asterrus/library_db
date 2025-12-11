@@ -42,6 +42,15 @@ class BookCreate(BaseModel):
     description: Optional[str] = None
 
 
+class BookWithAuthor(BaseModel):
+    title: str
+    author_id: UUID
+    isbn: str
+    published_date: datetime.date
+    description: Optional[str] = None
+    author: Author
+
+
 class Reader(BaseModel):
     id: UUID | None
     first_name: str
