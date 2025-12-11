@@ -10,7 +10,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from custom_queries.authors_and_readers import list_authors_and_readers
 from custom_queries.cte import books_with_authors_cte
 from custom_queries.orders_nulls import list_orders_with_default_return_date
-from schemas import AuthorsAndReaders, BookWithAuthor, Order
+from custom_queries.orders_with_number import list_orders_with_number
+from schemas import AuthorsAndReaders, BookWithAuthor, Order, OrderWithNumber
 
 logger = logging.getLogger(__name__)
 
@@ -70,4 +71,21 @@ class CustomQueriesController(Controller):
         rows = await books_with_authors_cte(db_session)
 
         type_adapter = TypeAdapter(list[BookWithAuthor])
+        return type_adapter.validate_python(rows)
+
+    @get(
+        path="/orders_with_number",
+        description="""
+        5. Оконные функции:
+        – Использование оконных функций для нумерации заказов:
+        """,
+    )
+    async def orders_with_number(
+        self,
+        db_session: AsyncSession,
+    ) -> list[OrderWithNumber]:
+        logger.debug("orders_with_number called")
+        rows = await list_orders_with_number(db_session)
+
+        type_adapter = TypeAdapter(list[OrderWithNumber])
         return type_adapter.validate_python(rows)

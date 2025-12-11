@@ -92,3 +92,15 @@ class OrderCreate(BaseModel):
     reader_id: UUID
     book_id: UUID
     due_date: datetime.date
+
+
+class OrderWithNumber(BaseModel):
+    id: UUID | None
+    reader_id: UUID
+    book_id: UUID
+    due_date: datetime.date
+    return_date: datetime.date | None = None
+    order_number: int
+
+    created_at: datetime.datetime
+    updated_at: datetime.datetime
