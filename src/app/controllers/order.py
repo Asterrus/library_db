@@ -19,7 +19,7 @@ class OrderController(Controller):
     """Order CRUD"""
 
     dependencies = {"orders_repo": Provide(provide_orders_repo)}
-    tags = ["Orders"]
+    tags = ["Orders(Сырые SQL запросы)"]
 
     @get(path="/orders")
     async def list_orders(

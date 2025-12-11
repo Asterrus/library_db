@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class CustomQueriesController(Controller):
-    tags = ["CustomQueries"]
+    tags = ["CustomQueries(Сырые SQL запросы)"]
 
     @get(path="/authors_and_readers")
     async def list_authors_and_readers(
