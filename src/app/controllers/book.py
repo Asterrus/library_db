@@ -1,3 +1,4 @@
+import logging
 from uuid import UUID
 
 from db.models import BookModel
@@ -9,6 +10,8 @@ from litestar.plugins.sqlalchemy import filters
 from pydantic import TypeAdapter
 from repositories import BookRepository
 from schemas import Book, BookCreate
+
+logger = logging.getLogger(__name__)
 
 
 class BookController(Controller):
@@ -23,6 +26,7 @@ class BookController(Controller):
         books_repo: BookRepository,
         limit_offset: filters.LimitOffset,
     ) -> OffsetPagination[Book]:
+        logger.debug("list_books called - limit_offset=%s", limit_offset)
         results, total = await books_repo.list_and_count(limit_offset)
         type_adapter = TypeAdapter(list[Book])
         return OffsetPagination[Book](
@@ -38,6 +42,7 @@ class BookController(Controller):
         books_repo: BookRepository,
         data: BookCreate,
     ) -> Book:
+        logger.debug("create_book called - data=%s", data)
         obj = await books_repo.add(
             BookModel(**data.model_dump(exclude_unset=True, exclude_none=True)),
         )
@@ -50,5 +55,6 @@ class BookController(Controller):
         books_repo: BookRepository,
         book_id: UUID,
     ) -> None:
+        logger.debug("delete_book called - book_id=%s", book_id)
         _ = await books_repo.delete(book_id)
         await books_repo.session.commit()

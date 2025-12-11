@@ -1,3 +1,4 @@
+import logging
 from uuid import UUID
 
 from db.models import OrderModel
@@ -9,6 +10,8 @@ from litestar.plugins.sqlalchemy import filters
 from pydantic import TypeAdapter
 from repositories import OrderRepository
 from schemas import Order, OrderCreate
+
+logger = logging.getLogger(__name__)
 
 
 class OrderController(Controller):
@@ -23,6 +26,7 @@ class OrderController(Controller):
         orders_repo: OrderRepository,
         limit_offset: filters.LimitOffset,
     ) -> OffsetPagination[Order]:
+        logger.debug("list_orders called - limit_offset=%s", limit_offset)
         results, total = await orders_repo.list_and_count(limit_offset)
         type_adapter = TypeAdapter(list[Order])
         return OffsetPagination[Order](
@@ -38,6 +42,7 @@ class OrderController(Controller):
         orders_repo: OrderRepository,
         data: OrderCreate,
     ) -> Order:
+        logger.debug("create_order called - data=%s", data)
         obj = await orders_repo.add(
             OrderModel(**data.model_dump(exclude_unset=True, exclude_none=True)),
         )
@@ -50,5 +55,6 @@ class OrderController(Controller):
         orders_repo: OrderRepository,
         order_id: UUID,
     ) -> None:
+        logger.debug("delete_order called - order_id=%s", order_id)
         _ = await orders_repo.delete(order_id)
         await orders_repo.session.commit()

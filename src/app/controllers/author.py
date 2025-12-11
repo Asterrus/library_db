@@ -1,3 +1,4 @@
+import logging
 from uuid import UUID
 
 from db.models import AuthorModel
@@ -9,6 +10,8 @@ from litestar.plugins.sqlalchemy import filters
 from pydantic import TypeAdapter
 from repositories import AuthorRepository
 from schemas import Author, AuthorCreate
+
+logger = logging.getLogger(__name__)
 
 
 class AuthorController(Controller):
@@ -23,6 +26,7 @@ class AuthorController(Controller):
         authors_repo: AuthorRepository,
         limit_offset: filters.LimitOffset,
     ) -> OffsetPagination[Author]:
+        logger.debug("list_authors called - limit_offset=%s", limit_offset)
         results, total = await authors_repo.list_and_count(limit_offset)
         type_adapter = TypeAdapter(list[Author])
         return OffsetPagination[Author](
@@ -38,6 +42,7 @@ class AuthorController(Controller):
         authors_repo: AuthorRepository,
         data: AuthorCreate,
     ) -> Author:
+        logger.debug("create_author called - data=%s", data)
         obj = await authors_repo.add(
             AuthorModel(**data.model_dump(exclude_unset=True, exclude_none=True)),
         )
@@ -50,5 +55,6 @@ class AuthorController(Controller):
         authors_repo: AuthorRepository,
         author_id: UUID,
     ) -> None:
+        logger.debug("delete_author called - author_id=%s", author_id)
         _ = await authors_repo.delete(author_id)
         await authors_repo.session.commit()
