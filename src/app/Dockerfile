@@ -1,4 +1,4 @@
-FROM python:3.13-slim
+FROM python:3.13-alpine
 
 ENV PYTHONUNBUFFERED=1
 
@@ -26,4 +26,4 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync
 
 RUN chmod +x /app/scripts/entrypoint.sh
-CMD ["bash", "/app/scripts/entrypoint.sh"]
+CMD ["sh", "/app/scripts/entrypoint.sh"]
