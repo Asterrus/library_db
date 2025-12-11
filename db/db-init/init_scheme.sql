@@ -9,7 +9,7 @@ CREATE TABLE book (
   book_title varchar(200) not null,
   author_id bigint not null references Author (author_id),
   isbn varchar(13) not null,
-  published_date date,
+  published_date date not null,
   description text
 );
 
