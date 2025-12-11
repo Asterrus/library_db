@@ -44,7 +44,6 @@ class BookCreate(BaseModel):
 class BookWithAuthor(BaseModel):
     id: UUID
     title: str
-    author_id: UUID
     isbn: str
     published_date: datetime.date
     description: str | None = None
