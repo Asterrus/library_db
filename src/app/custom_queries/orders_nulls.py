@@ -23,7 +23,7 @@ async def list_orders_with_default_return_date(
             created_at,
             updated_at
         FROM "order"
-        ORDER BY due_date, id
+        ORDER BY created_at
         """
     )
 

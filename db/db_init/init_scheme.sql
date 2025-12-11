@@ -34,3 +34,15 @@ CREATE TABLE "order" (
   created_at timestamp not null default now(),
   updated_at timestamp not null default now()
 );
+
+CREATE INDEX IF NOT EXISTS idx_book_author_id
+    ON book (author_id);
+
+CREATE INDEX IF NOT EXISTS idx_order_reader_id
+    ON "order" (reader_id);
+
+CREATE INDEX IF NOT EXISTS idx_order_book_id
+    ON "order" (book_id);
+
+CREATE INDEX IF NOT EXISTS idx_order_created_at
+    ON "order" (created_at);
