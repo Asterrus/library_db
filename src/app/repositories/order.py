@@ -4,30 +4,12 @@ import logging
 from typing import Any
 from uuid import UUID
 
-from db.models import AuthorModel, BookModel, OrderModel, ReaderModel
-from litestar.plugins.sqlalchemy import repository
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from db.models import OrderModel
+
 logger = logging.getLogger(__name__)
-
-
-class AuthorRepository(repository.SQLAlchemyAsyncRepository[AuthorModel]):
-    """Author repository."""
-
-    model_type = AuthorModel
-
-
-class BookRepository(repository.SQLAlchemyAsyncRepository[BookModel]):
-    """Book repository."""
-
-    model_type = BookModel
-
-
-class ReaderRepository(repository.SQLAlchemyAsyncRepository[ReaderModel]):
-    """Reader repository."""
-
-    model_type = ReaderModel
 
 
 class OrderRepository:
@@ -36,9 +18,7 @@ class OrderRepository:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
-    async def list_and_count(
-        self, limit_offset: Any
-    ) -> tuple[list[dict[str, Any]], int]:
+    async def list_and_count(self, limit_offset: Any) -> tuple[list[dict[str, Any]], int]:
         logger.debug("OrderRepository list_and_count")
 
         stmt = text("""
@@ -46,11 +26,11 @@ class OrderRepository:
                 id,
                 reader_id,
                 book_id,
-                due_date, 
-                return_date, 
-                created_at, 
-                updated_at 
-            FROM "order" 
+                due_date,
+                return_date,
+                created_at,
+                updated_at
+            FROM "order"
             ORDER BY created_at DESC
             LIMIT :limit OFFSET :offset
         """)

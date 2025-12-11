@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import datetime
-from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel as _BaseModel
@@ -28,7 +27,7 @@ class Book(BaseModel):
     author_id: UUID
     isbn: str
     published_date: datetime.date
-    description: Optional[str] = None
+    description: str | None = None
 
     created_at: datetime.datetime
     updated_at: datetime.datetime
@@ -39,7 +38,7 @@ class BookCreate(BaseModel):
     author_id: UUID
     isbn: str
     published_date: datetime.date
-    description: Optional[str] = None
+    description: str | None = None
 
 
 class BookWithAuthor(BaseModel):
@@ -48,7 +47,7 @@ class BookWithAuthor(BaseModel):
     author_id: UUID
     isbn: str
     published_date: datetime.date
-    description: Optional[str] = None
+    description: str | None = None
     author: Author
 
 
@@ -57,24 +56,26 @@ class Reader(BaseModel):
     first_name: str
     second_name: str
     phone: str
-    email: Optional[str] = None
+    email: str | None = None
 
-    created_at: datetime.datetime
-    updated_at: datetime.datetime
+
+class AuthorsAndReaders(BaseModel):
+    first_name: str
+    second_name: str
 
 
 class ReaderCreate(BaseModel):
     first_name: str
     second_name: str
     phone: str
-    email: Optional[str] = None
+    email: str | None = None
 
 
 class ReaderUpdate(BaseModel):
-    first_name: Optional[str] = None
-    second_name: Optional[str] = None
-    phone: Optional[str] = None
-    email: Optional[str] = None
+    first_name: str | None = None
+    second_name: str | None = None
+    phone: str | None = None
+    email: str | None = None
 
 
 class Order(BaseModel):
@@ -82,7 +83,7 @@ class Order(BaseModel):
     reader_id: UUID
     book_id: UUID
     due_date: datetime.date
-    return_date: Optional[datetime.date] = None
+    return_date: datetime.date | None = None
 
     created_at: datetime.datetime
     updated_at: datetime.datetime

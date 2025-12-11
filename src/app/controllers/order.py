@@ -1,13 +1,14 @@
 import logging
 from uuid import UUID
 
-from db.models import OrderModel
-from di import provide_orders_repo
 from litestar import Controller, delete, get, post
 from litestar.di import Provide
 from litestar.pagination import OffsetPagination
 from litestar.plugins.sqlalchemy import filters
 from pydantic import TypeAdapter
+
+from db.models import OrderModel
+from di import provide_orders_repo
 from repositories import OrderRepository
 from schemas import Order, OrderCreate
 
