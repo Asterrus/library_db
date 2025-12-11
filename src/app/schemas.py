@@ -43,6 +43,7 @@ class BookCreate(BaseModel):
 
 
 class BookWithAuthor(BaseModel):
+    id: UUID
     title: str
     author_id: UUID
     isbn: str
@@ -81,7 +82,7 @@ class Order(BaseModel):
     reader_id: UUID
     book_id: UUID
     due_date: datetime.date
-    return_date: datetime.date
+    return_date: Optional[datetime.date] = None
 
     created_at: datetime.datetime
     updated_at: datetime.datetime

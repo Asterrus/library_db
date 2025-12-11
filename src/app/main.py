@@ -16,9 +16,6 @@ from litestar.plugins.sqlalchemy import (
 )
 from pagination import provide_limit_offset_pagination
 
-logging.basicConfig()
-logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
-
 session_config = AsyncSessionConfig(expire_on_commit=False)
 
 
