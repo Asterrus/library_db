@@ -26,11 +26,14 @@ class BookController(Controller):
         self,
         books_repo: BookRepository,
         limit_offset: filters.LimitOffset,
-    ) -> OffsetPagination[Book]:
+    ) -> OffsetPagination[BookWithAuthor]:
         logger.debug("list_books called - limit_offset=%s", limit_offset)
-        results, total = await books_repo.list_and_count(limit_offset)
-        type_adapter = TypeAdapter(list[Book])
-        return OffsetPagination[Book](
+        results, total = await books_repo.list_and_count(
+            limit_offset,
+            load=[joinedload(BookModel.author)],
+        )
+        type_adapter = TypeAdapter(list[BookWithAuthor])
+        return OffsetPagination[BookWithAuthor](
             items=type_adapter.validate_python(results),
             total=total,
             limit=limit_offset.limit,
@@ -44,7 +47,10 @@ class BookController(Controller):
         book_id: UUID,
     ) -> BookWithAuthor:
         logger.debug("get_book called - book_id=%s", book_id)
-        result = await books_repo.get(book_id, load=[joinedload(BookModel.author)])
+        result = await books_repo.get(
+            book_id,
+            load=[joinedload(BookModel.author)],
+        )
         type_adapter = TypeAdapter(BookWithAuthor)
         return type_adapter.validate_python(result)
 
