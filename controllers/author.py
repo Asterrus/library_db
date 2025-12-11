@@ -16,6 +16,7 @@ class AuthorController(Controller):
     """Author CRUD"""
 
     dependencies = {"authors_repo": Provide(provide_authors_repo)}
+    tags = ["Authors"]
 
     @get(path="/authors")
     async def list_authors(

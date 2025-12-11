@@ -20,5 +20,5 @@ async def provide_readers_repo(db_session: AsyncSession) -> ReaderRepository:
     return ReaderRepository(session=db_session)
 
 
-async def orders_readers_repo(db_session: AsyncSession) -> OrderRepository:
+async def provide_orders_repo(db_session: AsyncSession) -> OrderRepository:
     return OrderRepository(session=db_session)

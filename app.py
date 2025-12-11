@@ -9,6 +9,9 @@ from litestar.plugins.sqlalchemy import (
 )
 
 from controllers.author import AuthorController
+from controllers.book import BookController
+from controllers.order import OrderController
+from controllers.reader import ReaderController
 from db.engine import get_database_url
 from pagination import provide_limit_offset_pagination
 
@@ -36,7 +39,12 @@ async def on_startup() -> None:
 
 
 app = Litestar(
-    route_handlers=[AuthorController],
+    route_handlers=[
+        AuthorController,
+        BookController,
+        ReaderController,
+        OrderController,
+    ],
     on_startup=[on_startup],
     plugins=[SQLAlchemyInitPlugin(config=sqlalchemy_config)],
     dependencies={"limit_offset": Provide(provide_limit_offset_pagination)},

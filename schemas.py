@@ -45,7 +45,7 @@ class Reader(BaseModel):
     id: UUID | None
     first_name: str
     second_name: str
-    phone: str | None
+    phone: str
     email: str | None
 
     created_at: datetime.datetime
@@ -55,7 +55,7 @@ class Reader(BaseModel):
 class ReaderCreate(BaseModel):
     first_name: str
     second_name: str
-    phone: str | None
+    phone: str
     email: str | None
 
 
