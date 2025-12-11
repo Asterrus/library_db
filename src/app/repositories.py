@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from litestar.plugins.sqlalchemy import repository
-
 from db.models import AuthorModel, BookModel, OrderModel, ReaderModel
+from litestar.plugins.sqlalchemy import repository
 
 
 class AuthorRepository(repository.SQLAlchemyAsyncRepository[AuthorModel]):

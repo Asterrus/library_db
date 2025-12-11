@@ -1,13 +1,12 @@
 from uuid import UUID
 
+from db.models import ReaderModel
+from di import provide_readers_repo
 from litestar import Controller, delete, get, post
 from litestar.di import Provide
 from litestar.pagination import OffsetPagination
 from litestar.plugins.sqlalchemy import filters
 from pydantic import TypeAdapter
-
-from db.models import ReaderModel
-from di import provide_readers_repo
 from repositories import ReaderRepository
 from schemas import Reader, ReaderCreate
 

@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+from controllers.author import AuthorController
+from controllers.book import BookController
+from controllers.order import OrderController
+from controllers.reader import ReaderController
+from db.engine import get_database_url
 from litestar import Litestar
 from litestar.di import Provide
 from litestar.plugins.sqlalchemy import (
@@ -7,12 +12,6 @@ from litestar.plugins.sqlalchemy import (
     SQLAlchemyAsyncConfig,
     SQLAlchemyInitPlugin,
 )
-
-from controllers.author import AuthorController
-from controllers.book import BookController
-from controllers.order import OrderController
-from controllers.reader import ReaderController
-from db.engine import get_database_url
 from pagination import provide_limit_offset_pagination
 
 session_config = AsyncSessionConfig(expire_on_commit=False)

@@ -1,11 +1,10 @@
 from logging.config import fileConfig
 
-from advanced_alchemy.base import orm_registry
-from sqlalchemy import engine_from_config, pool
-
 import db.models  # noqa
+from advanced_alchemy.base import orm_registry
 from alembic import context
 from db.engine import get_database_url
+from sqlalchemy import engine_from_config, pool
 
 # from db.models import BookModel as BookModel
 # from db.models import OrderModel as OrderModel

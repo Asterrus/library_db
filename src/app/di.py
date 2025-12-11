@@ -1,11 +1,10 @@
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from repositories import (
     AuthorRepository,
     BookRepository,
     OrderRepository,
     ReaderRepository,
 )
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 async def provide_authors_repo(db_session: AsyncSession) -> AuthorRepository:
