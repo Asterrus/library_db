@@ -1,31 +1,36 @@
 CREATE TABLE author (
-  author_id bigint generated always as identity primary key,
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   first_name varchar(200) not null,
   second_name varchar(200) not null
 );
 
 CREATE TABLE book (
-  book_id bigint generated always as identity primary key,
-  book_title varchar(200) not null,
-  author_id bigint not null references Author (author_id),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title text not null,
+  author_id uuid not null references author (id),
   isbn varchar(13) not null,
   published_date date not null,
-  description text
+  description text,
+  created_at timestamp not null default now(),
+  updated_at timestamp not null default now()
 );
 
 CREATE TABLE reader (
-  reader_id bigint generated always as identity primary key,
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   first_name varchar(200) not null,
   second_name varchar(200) not null,
   phone varchar(15),
-  email varchar(200)
+  email varchar(200),
+  created_at timestamp not null default now(),
+  updated_at timestamp not null default now()
 );
 
 CREATE TABLE "order" (
-  order_id bigint generated always as identity primary key,
-  reader_id bigint not null references Reader (reader_id),
-  book_id bigint not null references Book (book_id),
-  order_date timestamp not null default now(),
-  due_date timestamp not null,
-  return_date timestamp
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  reader_id uuid not null references reader (id),
+  book_id uuid not null references book (id),
+  due_date date not null,
+  return_date date,
+  created_at timestamp not null default now(),
+  updated_at timestamp not null default now()
 );
